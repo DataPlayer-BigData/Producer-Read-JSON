@@ -1,0 +1,101 @@
+ProducerReadingJson : This is an example of sending simple string message to topic using Synchronize method
+
+1) Create Maven Project
+2) Write all dependencies in maven (pom.xml) file
+3) Clean and refresh Maven.
+4) Create package(i.e tu.cit.examples.producerapis) and write SynchronizeProducer.java
+5) Add your class name (i.e, SynchronizeProducer) in pom.xml file in <mainfest> under <build>
+6) Create log4j2.xml file under src/main/java/resources
+7) Write your code in SynchronizeProducer.java
+   a) Set producer properties
+   b) Create json record
+   c) Create KafkaProducer
+   d) Create ProducerRecord with key and value and send.
+   e) Run the code. and investigate the output using kafka-console-consumer.
+        kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic producer-read-json --from-beginning --property print.key=true
+        kafka-console-consumer.sh \
+        --bootstrap-server localhost:9092 --topic producer-read-json  --from-beginning \
+        --formatter kafka.tools.DefaultMessageFormatter \
+        --property print.key=true \
+        --property print.value=true \
+        --property key.deserializer=org.apache.kafka.common.serialization.IntegerDeserializer
+
+
+
+
+
+
+
+
+
+CUSTOM PARTITION EXAMPLES
+
+kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic CustomPartition-example  --partition 0 --offset 0 --property print.key=true
+---------------------------------------------------------------------------
+OBJECTIVE OF THIS TUTORIAL
+
+
+SUMMARY
+If you want to explore more about KAFKA PRODUCER, visit below links
+//https://kafka.apache.org/documentation/#producerconfigs
+//https://kafka.apache.org/25/javadoc/index.html?org/apache/kafka/clients/producer/KafkaProducer.html
+//https://downloads.apache.org/kafka/2.4.0/javadoc/org/apache/kafka/clients/producer/ProducerConfig.html
+
+
+
+
+
+
+
+
+
+----------------------------------------------------------------------------
+
+KAFKA-CONSOLE-CONSUMER
+Print value with key
+----------------------
+kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic sync-producer --from-beginning --property print.key=true
+kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic sync-producer --partition 1 --offset 0 --property print.key=true
+
+kafka-console-consumer.sh \
+--bootstrap-server localhost:9092 --topic test --from-beginning \
+--formatter kafka.tools.DefaultMessageFormatter \
+--property print.key=true
+
+kafka-console-consumer.sh \
+--bootstrap-server localhost:9092 --topic test --from-beginning \
+--formatter kafka.tools.DefaultMessageFormatter \
+--property print.key=true
+--property print.value=true
+
+kafka-console-consumer.sh \
+--bootstrap-server localhost:9092 --topic test --from-beginning \
+--formatter kafka.tools.DefaultMessageFormatter \
+--property print.key=true
+--property print.value=true
+--property key.deserializer=org.apache.kafka.common.serialization.IntegerDeserializer
+
+kafka-console-consumer.sh \
+--bootstrap-server localhost:9092 --topic test --from-beginning \
+--formatter kafka.tools.DefaultMessageFormatter \
+--property print.key=true
+--property print.value=true
+--property key.deserializer=org.apache.kafka.common.serialization.IntegerDeserializer
+--max-messages 10
+
+-----------------------------------------------------------------------------------------------------------------
+
+TIMESTAMP
+Broker Configuration
+Add the following two configurations to broker
+message.timestamp.type=CreateTime|LogAppendTime|ProcessTime
+max.message.time.difference.ms=Long.MaxValue
+
+Add a time field to both ProducerRecord and ConsumerRecord
+-If user specify the timestamp for a ProducerRecord, the ProducerRecord will be sent with this timestamp.
+-If user does not specify the timestamp for a ProducerRecord, the producer stamp the ProducerRecord with current time.
+-ConsumerRecord will have the timestamp of the message that were stored on broker.
+
+Add a timestamp field to RecordMetadata
+-The timestamp in record metadata will be LongAppendTime if it is returned from broker, or it will be the timestamp set by user in ProducerRecord.
+- When producer invodes the callback for a message, the timestamp will be available through RecordMetadata.

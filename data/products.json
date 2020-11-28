@@ -1,0 +1,15 @@
+
+[
+  {
+    "productid" : 1002,
+    "productName" : "Mobile",
+    "brand" : "iPhone X",
+    "price" : 6000
+  },
+  {
+    "productid" : 1003,
+    "productName" : "Mobile",
+    "brand" : "Samsung Galaxy",
+    "price" : 5000
+  }
+]
